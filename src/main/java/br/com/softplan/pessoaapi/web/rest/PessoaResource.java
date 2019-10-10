@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.List;
 import java.util.Optional;
 
 import static br.com.softplan.pessoaapi.util.Constantes.API_PESSOA;
@@ -53,9 +54,16 @@ public class PessoaResource {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable Long id) throws URISyntaxException {
+    public ResponseEntity<?> delete(@PathVariable Long id) {
         log.debug("Chamada para método delete, o qual deletará uma pessoa de id {}", id);
         pessoaService.delete(id);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping
+    public ResponseEntity<?> list() {
+        log.debug("Chamada para método list, o qual listará pessoas cadastradas na base de dados.");
+        final List<Pessoa> listaRetornada = pessoaService.list();
+        return ResponseEntity.ok(PessoaDTO.convert(listaRetornada));
     }
 }

@@ -5,7 +5,6 @@ import br.com.softplan.pessoaapi.domain.InvalidDocumentException;
 import br.com.softplan.pessoaapi.domain.Pessoa;
 import br.com.softplan.pessoaapi.domain.PessoaDTO;
 import br.com.softplan.pessoaapi.service.PessoaService;
-import br.com.softplan.pessoaapi.util.Constantes;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,7 +22,6 @@ import static br.com.softplan.pessoaapi.util.Constantes.Mensagens.MSG_DOCUMENTO_
 import static br.com.softplan.pessoaapi.util.ConstantesTeste.*;
 import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.same;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -37,7 +35,7 @@ public class PessoaResourceTest {
     private PessoaDTO pessoaDTO;
     private Pessoa pessoa;
     private Optional<Pessoa> optionalPessoa;
-    private List<Pessoa> places;
+    private List<Pessoa> pessoas;
 
     @Before
     public void context() {
@@ -46,7 +44,7 @@ public class PessoaResourceTest {
         this.pessoa.setCpf(Documento.of(CPF_13785310005));
         this.pessoaDTO = new PessoaDTO(pessoa);
         this.optionalPessoa = Optional.of(pessoa);
-        this.places = new ArrayList<>();
+        this.pessoas = new ArrayList<>();
     }
 
     @Test
@@ -110,6 +108,16 @@ public class PessoaResourceTest {
 
         verify(pessoaServiceMock).delete(any(Long.class));
         assertEquals(HttpStatus.OK, resultado.getStatusCode());
+    }
+
+    @Test
+    public void deveriaChamarOhMetodoListDelegandoParaOhServicoRetornandoListaVazia() throws URISyntaxException {
+        when(pessoaServiceMock.list()).thenReturn(pessoas);
+        ResponseEntity resultado = pessoaResource.list();
+
+        verify(pessoaServiceMock).list();
+        assertEquals(HttpStatus.OK, resultado.getStatusCode());
+        assertEquals(pessoas, resultado.getBody());
     }
 
     private void limparObjetosPessoa() {
