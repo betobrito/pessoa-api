@@ -2,7 +2,8 @@ package br.com.softplan.pessoaapi.util;
 
 public interface ConstantesTeste {
 
-    String STRING_VAZIA = "";
-    String MSG_THIS_METHOD_SHOULD_NOT_BE_CALLED = "This method should not be called.";
+    String MSG_NAO_DEVERIA_CHAMAR_ESSE_METODO = "Não deveria chamar esse método.";
+    String CPF_13785310005 = "13785310005";
+    long ID_UM = 1L;
     
 }

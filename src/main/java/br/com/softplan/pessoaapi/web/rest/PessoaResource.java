@@ -42,4 +42,13 @@ public class PessoaResource {
                 .created(new URI(API_PESSOA + pessoaInserida.getId()))
                 .body(PessoaDTO.of(pessoaInserida));
     }
+
+    @PutMapping("{id}")
+    public ResponseEntity<PessoaDTO> edit(@PathVariable Long id, @Valid @RequestBody PessoaDTO pessoa) throws URISyntaxException {
+        log.debug("Chamada para método edit, o qual editará uma pessoa de cpf: {} e id {}", pessoa.getCpf(), id);
+        final Pessoa pessoaEditada = pessoaService.edit(id, pessoa.transformToEntity());
+        return ResponseEntity
+                .created(new URI(API_PESSOA + pessoaEditada.getId()))
+                .body(PessoaDTO.of(pessoaEditada));
+    }
 }

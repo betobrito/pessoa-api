@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static br.com.softplan.pessoaapi.util.Constantes.Mensagens.MSG_DOCUMENTO_INFORMADO_EH_INVALIDO;
+import static br.com.softplan.pessoaapi.util.ConstantesTeste.*;
 import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.same;
@@ -28,9 +29,6 @@ import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class PessoaResourceTest {
-
-    public static final long ID_ONE = 1L;
-    public static final String CPF_13785310005 = "13785310005";
 
     @Mock
     private PessoaService pessoaServiceMock;
@@ -53,11 +51,11 @@ public class PessoaResourceTest {
 
     @Test
     public void deveriaChamarOhMetodoFindDelegandoParaOhServicoRetornandoUmaPessoaDTO() {
-        when(pessoaServiceMock.find(ID_ONE)).thenReturn(optionalPessoa);
+        when(pessoaServiceMock.find(ID_UM)).thenReturn(optionalPessoa);
 
-        ResponseEntity resultado = pessoaResource.find(ID_ONE);
+        ResponseEntity resultado = pessoaResource.find(ID_UM);
 
-        verify(pessoaServiceMock).find(ID_ONE);
+        verify(pessoaServiceMock).find(ID_UM);
         assertEquals(HttpStatus.OK, resultado.getStatusCode());
         assertEquals(pessoaDTO, resultado.getBody());
     }
@@ -78,7 +76,29 @@ public class PessoaResourceTest {
         try{
             limparObjetosPessoa();
             pessoaResource.create(pessoaDTO);
-            fail("Não deveria chamar esse método.");
+            fail(MSG_NAO_DEVERIA_CHAMAR_ESSE_METODO);
+        }catch (InvalidDocumentException e){
+            assertEquals(MSG_DOCUMENTO_INFORMADO_EH_INVALIDO, e.getMessage());
+        }
+    }
+
+    @Test
+    public void deveriaChamarOhMetodoEditDelegandoParaOhServicoRetornandoUmaPessoaEditadaComDocumentoValido() throws URISyntaxException {
+        when(pessoaServiceMock.edit(any(Long.class), any(Pessoa.class))).thenReturn(pessoa);
+
+        ResponseEntity resultado = pessoaResource.edit(ID_UM, pessoaDTO);
+
+        verify(pessoaServiceMock).edit(any(Long.class), any(Pessoa.class));
+        assertEquals(HttpStatus.CREATED, resultado.getStatusCode());
+        assertEquals(pessoaDTO, resultado.getBody());
+    }
+
+    @Test
+    public void deveriaChamarOhMetodoEditDelegandoParaOhServicoRetornandoUmaPessoaEditadaComDocumentoInvalido() throws URISyntaxException {
+        try{
+            limparObjetosPessoa();
+            pessoaResource.edit(ID_UM, pessoaDTO);
+            fail(MSG_NAO_DEVERIA_CHAMAR_ESSE_METODO);
         }catch (InvalidDocumentException e){
             assertEquals(MSG_DOCUMENTO_INFORMADO_EH_INVALIDO, e.getMessage());
         }

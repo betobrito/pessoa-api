@@ -9,4 +9,6 @@ public interface PessoaService {
     Optional<Pessoa> find(Long id);
 
     Pessoa create(Pessoa pessoa);
+
+    Pessoa edit(Long id, Pessoa pessoa);
 }
