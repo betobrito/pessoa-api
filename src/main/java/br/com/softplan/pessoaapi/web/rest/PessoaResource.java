@@ -27,7 +27,7 @@ public class PessoaResource {
         this.pessoaService = pessoaService;
     }
 
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<PessoaDTO> find(@PathVariable Long id) {
         log.debug("Chamada para método find, o qual busca uma pessoa específica de id : {}", id);
         final Optional<Pessoa> retorno = pessoaService.find(id);
@@ -43,12 +43,19 @@ public class PessoaResource {
                 .body(PessoaDTO.of(pessoaInserida));
     }
 
-    @PutMapping("{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<PessoaDTO> edit(@PathVariable Long id, @Valid @RequestBody PessoaDTO pessoa) throws URISyntaxException {
         log.debug("Chamada para método edit, o qual editará uma pessoa de cpf: {} e id {}", pessoa.getCpf(), id);
         final Pessoa pessoaEditada = pessoaService.edit(id, pessoa.transformToEntity());
         return ResponseEntity
                 .created(new URI(API_PESSOA + pessoaEditada.getId()))
                 .body(PessoaDTO.of(pessoaEditada));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> delete(@PathVariable Long id) throws URISyntaxException {
+        log.debug("Chamada para método delete, o qual deletará uma pessoa de id {}", id);
+        pessoaService.delete(id);
+        return ResponseEntity.ok().build();
     }
 }

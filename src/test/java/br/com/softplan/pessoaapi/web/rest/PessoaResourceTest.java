@@ -104,6 +104,14 @@ public class PessoaResourceTest {
         }
     }
 
+    @Test
+    public void deveriaChamarOhMetodoDeleteDelegandoParaOhServicoRetornandoStatusOk() throws URISyntaxException {
+        ResponseEntity resultado = pessoaResource.delete(ID_UM);
+
+        verify(pessoaServiceMock).delete(any(Long.class));
+        assertEquals(HttpStatus.OK, resultado.getStatusCode());
+    }
+
     private void limparObjetosPessoa() {
         this.pessoa = new Pessoa();
         this.pessoaDTO = new PessoaDTO(pessoa);
