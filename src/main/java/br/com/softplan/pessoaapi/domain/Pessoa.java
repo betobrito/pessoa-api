@@ -1,12 +1,12 @@
 package br.com.softplan.pessoaapi.domain;
 
+import br.com.softplan.pessoaapi.domain.converter.DataNascimentoConverter;
 import br.com.softplan.pessoaapi.domain.converter.DocumentoConverter;
 import br.com.softplan.pessoaapi.domain.converter.EmailConverter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -20,7 +20,6 @@ public class Pessoa implements Serializable {
     @Column(name = "id", nullable = false, unique = true)
     private Long id;
 
-    @NotBlank
     @Column(name = "nome", nullable = false)
     private String nome;
 
@@ -31,8 +30,9 @@ public class Pessoa implements Serializable {
     @Convert(converter = EmailConverter.class)
     private Email email;
 
+    @Convert(converter = DataNascimentoConverter.class)
     @Column(name = "data_nascimento")
-    private LocalDate dataNascimento;
+    private DataNascimento dataNascimento;
 
     @Column(name = "naturalidade")
     private String naturalidade;
@@ -59,7 +59,7 @@ public class Pessoa implements Serializable {
         this.nome = nome;
         this.sexo = sexo;
         this.email = Email.of(email);
-        this.dataNascimento = dataNascimento;
+        this.dataNascimento = DataNascimento.of(dataNascimento);
         this.naturalidade = naturalidade;
         this.nacionalidade = nacionalidade;
         this.cpf = Documento.of(cpf);
@@ -97,11 +97,11 @@ public class Pessoa implements Serializable {
         this.email = email;
     }
 
-    public LocalDate getDataNascimento() {
+    public DataNascimento getDataNascimento() {
         return dataNascimento;
     }
 
-    public void setDataNascimento(LocalDate dataNascimento) {
+    public void setDataNascimento(DataNascimento dataNascimento) {
         this.dataNascimento = dataNascimento;
     }
 

@@ -1,7 +1,7 @@
 package br.com.softplan.pessoaapi.web.rest;
 
 import br.com.softplan.pessoaapi.domain.Pessoa;
-import br.com.softplan.pessoaapi.domain.PessoaDTO;
+import br.com.softplan.pessoaapi.domain.dto.PessoaDTO;
 import br.com.softplan.pessoaapi.service.PessoaService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,6 +20,7 @@ import static br.com.softplan.pessoaapi.util.Constantes.API_PESSOA;
 @RequestMapping(API_PESSOA)
 public class PessoaResource {
 
+    public static final String BARRA = "/";
     private final Logger log = LoggerFactory.getLogger(PessoaResource.class);
 
     private final PessoaService pessoaService;
@@ -40,7 +41,7 @@ public class PessoaResource {
         log.debug("Chamada para método create, o qual criará uma pessoa de cpf: {}", pessoa.getCpf());
         final Pessoa pessoaInserida = pessoaService.create(pessoa.transformToEntity());
         return ResponseEntity
-                .created(new URI(API_PESSOA + pessoaInserida.getId()))
+                .created(new URI(API_PESSOA + BARRA + pessoaInserida.getId()))
                 .body(PessoaDTO.of(pessoaInserida));
     }
 
@@ -49,7 +50,7 @@ public class PessoaResource {
         log.debug("Chamada para método edit, o qual editará uma pessoa de cpf: {} e id {}", pessoa.getCpf(), id);
         final Pessoa pessoaEditada = pessoaService.edit(id, pessoa.transformToEntity());
         return ResponseEntity
-                .created(new URI(API_PESSOA + pessoaEditada.getId()))
+                .created(new URI(API_PESSOA + BARRA + pessoaEditada.getId()))
                 .body(PessoaDTO.of(pessoaEditada));
     }
 

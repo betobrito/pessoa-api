@@ -1,10 +1,12 @@
 package br.com.softplan.pessoaapi.web.rest;
 
+import br.com.softplan.pessoaapi.domain.DataNascimento;
 import br.com.softplan.pessoaapi.domain.Documento;
 import br.com.softplan.pessoaapi.domain.Email;
 import br.com.softplan.pessoaapi.domain.Pessoa;
-import br.com.softplan.pessoaapi.domain.PessoaDTO;
+import br.com.softplan.pessoaapi.domain.dto.PessoaDTO;
 import br.com.softplan.pessoaapi.service.PessoaService;
+import br.com.softplan.pessoaapi.util.exception.InvalidDateOfBirthException;
 import br.com.softplan.pessoaapi.util.exception.InvalidDocumentException;
 import br.com.softplan.pessoaapi.util.exception.InvalidEmailException;
 import org.junit.Before;
@@ -16,12 +18,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import java.net.URISyntaxException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static br.com.softplan.pessoaapi.util.Constantes.Mensagens.MSG_DOCUMENTO_INFORMADO_EH_INVALIDO;
-import static br.com.softplan.pessoaapi.util.Constantes.Mensagens.MSG_EMAIL_INFORMADO_EH_INVALIDO;
+import static br.com.softplan.pessoaapi.util.Constantes.Mensagens.*;
 import static br.com.softplan.pessoaapi.util.ConstantesTeste.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
@@ -47,6 +49,7 @@ public class PessoaResourceTest {
         this.pessoa = new Pessoa();
         this.pessoa.setCpf(Documento.of(CPF_13785310005));
         this.pessoa.setEmail(Email.of(EMAIL_VALIDO));
+        this.pessoa.setDataNascimento(DataNascimento.of(LocalDate.now()));
         this.pessoaDTO = new PessoaDTO(pessoa);
         this.optionalPessoa = Optional.of(pessoa);
         this.pessoas = new ArrayList<>();
@@ -77,7 +80,7 @@ public class PessoaResourceTest {
     @Test
     public void deveriaChamarOhMetodoCreateDelegandoParaOhServicoRetornandoUmaPessoaInseridaComDocumentoInvalido() throws URISyntaxException {
         try{
-            limparObjetosPessoaMantendoEmailValido();
+            limparObjetosPessoaMantendoEmailValidoIhDataValida();
             pessoaResource.create(pessoaDTO);
             fail(MSG_NAO_DEVERIA_CHAMAR_ESSE_METODO);
         }catch (InvalidDocumentException e){
@@ -121,7 +124,7 @@ public class PessoaResourceTest {
     @Test
     public void deveriaChamarOhMetodoEditDelegandoParaOhServicoRetornandoUmaPessoaEditadaComDocumentoInvalido() throws URISyntaxException {
         try{
-            limparObjetosPessoaMantendoEmailValido();
+            limparObjetosPessoaMantendoEmailValidoIhDataValida();
             pessoaResource.edit(ID_UM, pessoaDTO);
             fail(MSG_NAO_DEVERIA_CHAMAR_ESSE_METODO);
         }catch (InvalidDocumentException e){
@@ -169,9 +172,54 @@ public class PessoaResourceTest {
         assertEquals(pessoas, resultado.getBody());
     }
 
-    private void limparObjetosPessoaMantendoEmailValido() {
+    @Test
+    public void deveriaChamarOhMetodoEditDelegandoParaOhServicoRetornandoUmaPessoaEditadaComDataNascimentoInvalida() throws URISyntaxException {
+        try{
+            limparObjetosPessoaMantendoEmailValidoIhDataInvalida();
+            pessoaResource.edit(ID_UM, pessoaDTO);
+            fail(MSG_NAO_DEVERIA_CHAMAR_ESSE_METODO);
+        }catch (InvalidDateOfBirthException e){
+            assertEquals(MSG_DATA_NASCIMENTO_INFORMADO_EH_INVALIDA, e.getMessage());
+        }
+    }
+
+    @Test
+    public void deveriaChamarOhMetodoEditDelegandoParaOhServicoRetornandoUmaPessoaEditadaComDataNascimentoAvancada() throws URISyntaxException {
+        try{
+            limparObjetosPessoaMantendoEmailValidoIhDataAposDataAtual();
+            pessoaResource.edit(ID_UM, pessoaDTO);
+            fail(MSG_NAO_DEVERIA_CHAMAR_ESSE_METODO);
+        }catch (InvalidDateOfBirthException e){
+            assertEquals(MSG_DATA_NASCIMENTO_INFORMADO_EH_INVALIDA, e.getMessage());
+        }
+    }
+
+    @Test
+    public void deveriaChamarOhMetodoCreateDelegandoParaOhServicoRetornandoUmaPessoaEditadaComDataNascimentoInvalida() throws URISyntaxException {
+        try{
+            limparObjetosPessoaMantendoEmailValidoIhDataInvalida();
+            pessoaResource.create(pessoaDTO);
+            fail(MSG_NAO_DEVERIA_CHAMAR_ESSE_METODO);
+        }catch (InvalidDateOfBirthException e){
+            assertEquals(MSG_DATA_NASCIMENTO_INFORMADO_EH_INVALIDA, e.getMessage());
+        }
+    }
+
+    @Test
+    public void deveriaChamarOhMetodoCreateDelegandoParaOhServicoRetornandoUmaPessoaEditadaComDataNascimentoAvancada() throws URISyntaxException {
+        try{
+            limparObjetosPessoaMantendoEmailValidoIhDataAposDataAtual();
+            pessoaResource.create(pessoaDTO);
+            fail(MSG_NAO_DEVERIA_CHAMAR_ESSE_METODO);
+        }catch (InvalidDateOfBirthException e){
+            assertEquals(MSG_DATA_NASCIMENTO_INFORMADO_EH_INVALIDA, e.getMessage());
+        }
+    }
+
+    private void limparObjetosPessoaMantendoEmailValidoIhDataValida() {
         this.pessoa = new Pessoa();
         this.pessoa.setEmail(Email.of(EMAIL_VALIDO));
+        this.pessoa.setDataNascimento(DataNascimento.of(LocalDate.now()));
         this.pessoaDTO = new PessoaDTO(pessoa);
     }
 
@@ -184,6 +232,19 @@ public class PessoaResourceTest {
     private void limparObjetosPessoaMantendoEmailInvalidoSemPontos() {
         this.pessoa = new Pessoa();
         this.pessoa.setEmail(Email.of(EMAIL_INVALIDO_SEM_ARROBA));
+        this.pessoaDTO = new PessoaDTO(pessoa);
+    }
+
+    private void limparObjetosPessoaMantendoEmailValidoIhDataInvalida() {
+        this.pessoa = new Pessoa();
+        this.pessoa.setEmail(Email.of(EMAIL_VALIDO));
+        this.pessoaDTO = new PessoaDTO(pessoa);
+    }
+
+    private void limparObjetosPessoaMantendoEmailValidoIhDataAposDataAtual() {
+        this.pessoa = new Pessoa();
+        this.pessoa.setEmail(Email.of(EMAIL_VALIDO));
+        this.pessoa.setDataNascimento(DataNascimento.of(LocalDate.of(LocalDate.now().getYear()+1, LocalDate.now().getMonth(), LocalDate.now().getDayOfMonth())));
         this.pessoaDTO = new PessoaDTO(pessoa);
     }
 
