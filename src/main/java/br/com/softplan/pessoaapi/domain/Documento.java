@@ -1,5 +1,7 @@
 package br.com.softplan.pessoaapi.domain;
 
+import br.com.softplan.pessoaapi.util.exception.InvalidDocumentException;
+
 import java.util.regex.Pattern;
 
 import static br.com.softplan.pessoaapi.util.Constantes.Mensagens.MSG_DOCUMENTO_INFORMADO_EH_INVALIDO;
@@ -35,6 +37,6 @@ public class Documento {
 
     @Override
     public String toString() {
-        return numeroDocumento;
+        return this.numeroDocumento;
     }
 }

@@ -19,7 +19,7 @@ public class PessoaDTO {
         this.nome = pessoa.getNome();
         this.sexo = pessoa.getSexo();
         this.cpf = pessoa.getCpf() != null? pessoa.getCpf().toString():null;
-        this.email = pessoa.getEmail();
+        this.email = pessoa.getEmail() != null? pessoa.getEmail().toString():null;
         this.dataNascimento = pessoa.getDataNascimento();
         this.nacionalidade = pessoa.getNacionalidade();
         this.naturalidade = pessoa.getNaturalidade();

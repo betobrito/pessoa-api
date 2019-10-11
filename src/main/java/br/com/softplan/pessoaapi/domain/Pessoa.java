@@ -1,13 +1,11 @@
 package br.com.softplan.pessoaapi.domain;
 
 import br.com.softplan.pessoaapi.domain.converter.DocumentoConverter;
+import br.com.softplan.pessoaapi.domain.converter.EmailConverter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import javax.persistence.Column;
-import javax.persistence.Convert;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -18,6 +16,7 @@ import java.util.Objects;
 public class Pessoa implements Serializable {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, unique = true)
     private Long id;
 
@@ -29,7 +28,8 @@ public class Pessoa implements Serializable {
     private String sexo;
 
     @Column(name = "email")
-    private String email;
+    @Convert(converter = EmailConverter.class)
+    private Email email;
 
     @Column(name = "data_nascimento")
     private LocalDate dataNascimento;
@@ -58,7 +58,7 @@ public class Pessoa implements Serializable {
     public Pessoa(String nome, String sexo, String email, LocalDate dataNascimento, String naturalidade, String nacionalidade, String cpf) {
         this.nome = nome;
         this.sexo = sexo;
-        this.email = email;
+        this.email = Email.of(email);
         this.dataNascimento = dataNascimento;
         this.naturalidade = naturalidade;
         this.nacionalidade = nacionalidade;
@@ -89,11 +89,11 @@ public class Pessoa implements Serializable {
         this.sexo = sexo;
     }
 
-    public String getEmail() {
+    public Email getEmail() {
         return email;
     }
 
-    public void setEmail(String email) {
+    public void setEmail(Email email) {
         this.email = email;
     }
 

@@ -1,4 +1,4 @@
-package br.com.softplan.pessoaapi.domain;
+package br.com.softplan.pessoaapi.util.exception;
 
 public class InvalidDocumentException extends RuntimeException {
 

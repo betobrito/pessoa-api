@@ -1,4 +1,4 @@
-package br.com.softplan.pessoaapi.util;
+package br.com.softplan.pessoaapi.util.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
