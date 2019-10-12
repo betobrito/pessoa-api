@@ -30,7 +30,7 @@ public class PessoaServiceImpl implements PessoaService {
 
     @Override
     public Pessoa create(Pessoa pessoa) {
-        throw new UnsupportedOperationException();
+        return pessoaRepository.save(pessoa);
     }
 
     @Override

@@ -3,12 +3,12 @@ package br.com.softplan.pessoaapi.service;
 import br.com.softplan.pessoaapi.domain.Pessoa;
 import br.com.softplan.pessoaapi.repository.PessoaRepository;
 import br.com.softplan.pessoaapi.service.impl.PessoaServiceImpl;
-import br.com.softplan.pessoaapi.util.Constantes;
 import br.com.softplan.pessoaapi.util.exception.NotFoundException;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import static org.mockito.ArgumentMatchers.any;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.ArrayList;
@@ -63,5 +63,15 @@ public class PessoaServiceTest {
         }catch (NotFoundException e){
             assertEquals(MSG_NAO_FOI_ENCONTRADA_PESSOA_COM_ESTE_ID, e.getMessage());
         }
+    }
+
+    @Test
+    public void deveriaChamarOhMetodoCreateRetornandoAhPessoaInserida() {
+        when(pessoaRepositoryMock.save(any(Pessoa.class))).thenReturn(this.pessoa);
+
+        final Pessoa pessoaRetornada = pessoaService.create(this.pessoa);
+
+        verify(pessoaRepositoryMock).save(this.pessoa);
+        assertEquals(pessoaRetornada, this.pessoa);
     }
 }
