@@ -10,12 +10,10 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import static br.com.softplan.pessoaapi.util.Constantes.Autenticacao.*;
+
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-
-    public static final String LOGIN_ADMIN = "admin";
-    public static final String PASSWORD_123 = "123";
-    public static final String ROLE_ADMIN = "ADMIN";
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {

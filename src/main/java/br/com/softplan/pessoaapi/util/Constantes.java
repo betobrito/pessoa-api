@@ -12,4 +12,10 @@ public interface Constantes {
         String MSG_NAO_FOI_ENCONTRADA_PESSOA_COM_ESTE_ID = "Não foi encontrada pessoa com este id.";
         String MSG_CPF_DA_PESSOA_INFORMADA_JA_EXISTE = "Cpf da pessoa informada já existe.";
     }
+    
+    interface Autenticacao{
+        String LOGIN_ADMIN = "admin";
+        String PASSWORD_123 = "123";
+        String ROLE_ADMIN = "ADMIN";
+    }
 }
