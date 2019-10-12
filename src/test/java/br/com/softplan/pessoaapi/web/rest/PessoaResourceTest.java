@@ -57,7 +57,7 @@ public class PessoaResourceTest {
 
     @Test
     public void deveriaChamarOhMetodoFindDelegandoParaOhServicoRetornandoUmaPessoaDTO() {
-        when(pessoaServiceMock.find(ID_UM)).thenReturn(optionalPessoa);
+        when(pessoaServiceMock.find(ID_UM)).thenReturn(pessoa);
 
         ResponseEntity resultado = pessoaResource.find(ID_UM);
 

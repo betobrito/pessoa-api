@@ -12,7 +12,6 @@ import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
-import java.util.Optional;
 
 import static br.com.softplan.pessoaapi.util.Constantes.API_PESSOA;
 
@@ -32,8 +31,8 @@ public class PessoaResource {
     @GetMapping("/{id}")
     public ResponseEntity<PessoaDTO> find(@PathVariable Long id) {
         log.debug("Chamada para método find, o qual busca uma pessoa específica de id : {}", id);
-        final Optional<Pessoa> retorno = pessoaService.find(id);
-        return  ResponseEntity.ok(PessoaDTO.of(retorno.get()));
+        final Pessoa pessoaRetornada = pessoaService.find(id);
+        return  ResponseEntity.ok(PessoaDTO.of(pessoaRetornada));
     }
 
     @PostMapping
