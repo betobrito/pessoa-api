@@ -51,7 +51,7 @@ public class PessoaServiceImpl implements PessoaService {
 
     @Override
     public List<Pessoa> list() {
-        throw new UnsupportedOperationException();
+        return pessoaRepository.findAll();
     }
 
     private void validarSeCpfInformadoJaExiste(Pessoa pessoa) {

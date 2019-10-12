@@ -49,6 +49,7 @@ public class PessoaServiceTest {
                                           .cpf(Documento.of(CPF_13785310005));
         this.optionalPessoa = Optional.of(pessoa);
         this.pessoas = new ArrayList<>();
+        this.pessoas.add(pessoa);
     }
 
     @Test
@@ -141,5 +142,14 @@ public class PessoaServiceTest {
 
         verify(pessoaRepositoryMock).findById(ID_UM);
         verify(pessoaRepositoryMock).delete(pessoa);
+    }
+
+    @Test
+    public void deveriaChamarOhMetodoListDelegandoParaOhRepositorio() {
+        when(pessoaRepositoryMock.findAll()).thenReturn(pessoas);
+        final List<Pessoa> listaRetornada = pessoaService.list();
+
+        verify(pessoaRepositoryMock).findAll();
+        assertEquals(pessoas, listaRetornada);
     }
 }
