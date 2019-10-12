@@ -2,34 +2,41 @@ package br.com.softplan.pessoaapi.domain;
 
 import br.com.softplan.pessoaapi.util.exception.InvalidDateOfBirthException;
 
-import java.time.LocalDate;
+import java.util.Calendar;
+import java.util.Date;
 
 import static br.com.softplan.pessoaapi.util.Constantes.Mensagens.MSG_DATA_NASCIMENTO_INFORMADO_EH_INVALIDA;
 
 public class DataNascimento {
 
-    private LocalDate dataNascimento;
+    private Date dataNascimento;
 
-    private DataNascimento(LocalDate dataNascimento) {
+    private DataNascimento(Date dataNascimento) {
         lancarExceptionCasoDataNascimentoSejaInvalida(dataNascimento);
         this.dataNascimento = dataNascimento;
     }
 
-    private void lancarExceptionCasoDataNascimentoSejaInvalida(LocalDate dataNascimento) {
+    private void lancarExceptionCasoDataNascimentoSejaInvalida(Date dataNascimento) {
         if(ehInvalido(dataNascimento)){
             throw new InvalidDateOfBirthException(MSG_DATA_NASCIMENTO_INFORMADO_EH_INVALIDA);
         }
     }
 
-    private boolean ehInvalido(LocalDate dataNascimento) {
-        return dataNascimento == null || LocalDate.now().isBefore(dataNascimento);
+    private boolean ehInvalido(Date dataNascimento) {
+        return dataNascimento == null || Calendar.getInstance().before(getCalendar(dataNascimento));
     }
 
-    public static DataNascimento of(LocalDate dataNascimento) {
+    private Calendar getCalendar(Date dataNascimento) {
+        final Calendar dataNascimentoInformada = Calendar.getInstance();
+        dataNascimentoInformada.setTime(dataNascimento);
+        return dataNascimentoInformada;
+    }
+
+    public static DataNascimento of(Date dataNascimento) {
         return new DataNascimento(dataNascimento);
     }
 
-    public LocalDate getDataNascimento() {
+    public Date getDataNascimento() {
         return dataNascimento;
     }
 }

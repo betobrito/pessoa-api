@@ -1,10 +1,7 @@
 package br.com.softplan.pessoaapi.util;
 
 import br.com.softplan.pessoaapi.domain.dto.ErroDTO;
-import br.com.softplan.pessoaapi.util.exception.InvalidDateOfBirthException;
-import br.com.softplan.pessoaapi.util.exception.InvalidDocumentException;
-import br.com.softplan.pessoaapi.util.exception.InvalidEmailException;
-import br.com.softplan.pessoaapi.util.exception.NotFoundException;
+import br.com.softplan.pessoaapi.util.exception.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -29,6 +26,12 @@ public class ExceptionControllerAdvice {
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler({NotFoundException.class})
     public void handleNotFound() {}
+
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ExceptionHandler({NegocioException.class})
+    public ErroDTO handleNegocio(NegocioException e) {
+        return new ErroDTO(e.getClass().getSimpleName(), e.getMessage());
+    }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler({InvalidEmailException.class, InvalidDocumentException.class, InvalidDateOfBirthException.class})

@@ -1,25 +1,27 @@
 package br.com.softplan.pessoaapi.domain.dto;
 
 import br.com.softplan.pessoaapi.domain.Pessoa;
+import br.com.softplan.pessoaapi.util.validation.Create;
+import br.com.softplan.pessoaapi.util.validation.Edit;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class PessoaDTO {
 
-    @NotBlank(message = "Nome é obrigatório, deve ser informado.")
+    @NotBlank(message = "Nome é obrigatório, deve ser informado.", groups = {Create.class, Edit.class})
     private String nome;
     private String sexo;
     private String email;
-    @NotNull(message = "Data de nascimento é obrigatória, deve ser informada.")
-    private LocalDate dataNascimento;
+    @NotNull(message = "Data de nascimento é obrigatória, deve ser informada.", groups = {Create.class, Edit.class})
+    private Date dataNascimento;
     private String naturalidade;
     private String nacionalidade;
-    @NotBlank(message = "CPF é obrigatório, deve ser informado.")
+    @NotBlank(message = "CPF é obrigatório, deve ser informado.", groups = Create.class)
     private String cpf;
 
     public PessoaDTO() {
@@ -47,7 +49,7 @@ public class PessoaDTO {
         return email;
     }
 
-    public LocalDate getDataNascimento() {
+    public Date getDataNascimento() {
         return dataNascimento;
     }
 

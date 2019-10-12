@@ -3,9 +3,11 @@ package br.com.softplan.pessoaapi.web.rest;
 import br.com.softplan.pessoaapi.domain.Pessoa;
 import br.com.softplan.pessoaapi.domain.dto.PessoaDTO;
 import br.com.softplan.pessoaapi.service.PessoaService;
+import br.com.softplan.pessoaapi.util.validation.Edit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -45,7 +47,7 @@ public class PessoaResource {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<PessoaDTO> edit(@PathVariable Long id, @Valid @RequestBody PessoaDTO pessoa) throws URISyntaxException {
+    public ResponseEntity<PessoaDTO> edit(@PathVariable Long id, @Validated(Edit.class) @RequestBody PessoaDTO pessoa) throws URISyntaxException {
         log.debug("Chamada para método edit, o qual editará uma pessoa de cpf: {} e id {}", pessoa.getCpf(), id);
         final Pessoa pessoaEditada = pessoaService.edit(id, pessoa.transformToEntity());
         return ResponseEntity

@@ -8,8 +8,8 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.Objects;
 
 @Entity
@@ -55,7 +55,7 @@ public class Pessoa implements Serializable {
     public Pessoa() {
     }
 
-    public Pessoa(String nome, String sexo, String email, LocalDate dataNascimento, String naturalidade, String nacionalidade, String cpf) {
+    public Pessoa(String nome, String sexo, String email, Date dataNascimento, String naturalidade, String nacionalidade, String cpf) {
         this.nome = nome;
         this.sexo = sexo;
         this.email = Email.of(email);
@@ -69,24 +69,12 @@ public class Pessoa implements Serializable {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public String getNome() {
         return nome;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
     public String getSexo() {
         return sexo;
-    }
-
-    public void setSexo(String sexo) {
-        this.sexo = sexo;
     }
 
     public Email getEmail() {
@@ -109,16 +97,8 @@ public class Pessoa implements Serializable {
         return naturalidade;
     }
 
-    public void setNaturalidade(String naturalidade) {
-        this.naturalidade = naturalidade;
-    }
-
     public String getNacionalidade() {
         return nacionalidade;
-    }
-
-    public void setNacionalidade(String nacionalidade) {
-        this.nacionalidade = nacionalidade;
     }
 
     public Documento getCpf() {
@@ -133,16 +113,48 @@ public class Pessoa implements Serializable {
         return dataCriacao;
     }
 
-    public void setDataCriacao(LocalDateTime dataCriacao) {
-        this.dataCriacao = dataCriacao;
-    }
-
     public LocalDateTime getDataAtualizacao() {
         return dataAtualizacao;
     }
 
-    public void setDataAtualizacao(LocalDateTime dataAtualizacao) {
-        this.dataAtualizacao = dataAtualizacao;
+    public Pessoa id(Long id){
+        this.id = id;
+        return this;
+    }
+
+    public Pessoa nome(String nome){
+        this.nome = nome;
+        return this;
+    }
+
+    public Pessoa sexo(String sexo){
+        this.sexo = sexo;
+        return this;
+    }
+
+    public Pessoa email(Email email){
+        this.email = email;
+        return this;
+    }
+
+    public Pessoa naturalidade(String naturalidade){
+        this.naturalidade = naturalidade;
+        return this;
+    }
+
+    public Pessoa nacionalidade(String nacionalidade){
+        this.nacionalidade = nacionalidade;
+        return this;
+    }
+
+    public Pessoa dataNascimeto(DataNascimento dataNascimento){
+        this.dataNascimento = dataNascimento;
+        return this;
+    }
+
+    public Pessoa cpf(Documento documento){
+        this.cpf = documento;
+        return this;
     }
 
     @Override
