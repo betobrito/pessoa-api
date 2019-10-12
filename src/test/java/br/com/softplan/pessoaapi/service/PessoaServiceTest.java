@@ -120,4 +120,26 @@ public class PessoaServiceTest {
             assertEquals(MSG_NAO_FOI_ENCONTRADA_PESSOA_COM_ESTE_ID, e.getMessage());
         }
     }
+
+    @Test
+    public void deveriaChamarOhMetodoDeleteRetornandoNotFoundException() {
+        try{
+            when(pessoaRepositoryMock.findById(ID_UM)).thenReturn(Optional.empty());
+            pessoaService.delete(ID_UM);
+
+            verify(pessoaRepositoryMock).findById(ID_UM);
+            fail(MSG_NAO_DEVERIA_CHAMAR_ESSE_METODO);
+        }catch (NotFoundException e){
+            assertEquals(MSG_NAO_FOI_ENCONTRADA_PESSOA_COM_ESTE_ID, e.getMessage());
+        }
+    }
+
+    @Test
+    public void deveriaChamarOhMetodoDeleteDelegandoParaOhRepositorio() {
+        when(pessoaRepositoryMock.findById(ID_UM)).thenReturn(optionalPessoa);
+        pessoaService.delete(ID_UM);
+
+        verify(pessoaRepositoryMock).findById(ID_UM);
+        verify(pessoaRepositoryMock).delete(pessoa);
+    }
 }

@@ -36,13 +36,6 @@ public class PessoaServiceImpl implements PessoaService {
         return pessoaRepository.save(pessoa);
     }
 
-    private void validarSeCpfInformadoJaExiste(Pessoa pessoa) {
-        final Pessoa pessoaConsultada = pessoaRepository.findByCpf(pessoa.getCpf());
-        if(pessoaConsultada != null){
-            throw new NegocioException(MSG_CPF_DA_PESSOA_INFORMADA_JA_EXISTE);
-        }
-    }
-
     @Override
     public Pessoa edit(Long id, Pessoa pessoaAlterada) {
         Pessoa pessoaConsultada = find(id);
@@ -50,22 +43,30 @@ public class PessoaServiceImpl implements PessoaService {
         return pessoaConsultada;
     }
 
-    private void atribuindoDadosDaPessoaAlteradaAhPessoaConsultada(Pessoa pessoaAlterada, Pessoa pessoaConsultada) {
-        pessoaConsultada.nome(pessoaAlterada.getNome())
-                        .email(pessoaAlterada.getEmail())
-                        .sexo(pessoaAlterada.getSexo())
-                        .dataNascimeto(pessoaAlterada.getDataNascimento())
-                        .nacionalidade(pessoaAlterada.getNacionalidade())
-                        .naturalidade(pessoaAlterada.getNaturalidade());
-    }
-
     @Override
     public void delete(Long id) {
-        throw new UnsupportedOperationException();
+        Pessoa pessoaConsultada = find(id);
+        pessoaRepository.delete(pessoaConsultada);
     }
 
     @Override
     public List<Pessoa> list() {
         throw new UnsupportedOperationException();
+    }
+
+    private void validarSeCpfInformadoJaExiste(Pessoa pessoa) {
+        final Pessoa pessoaConsultada = pessoaRepository.findByCpf(pessoa.getCpf());
+        if(pessoaConsultada != null){
+            throw new NegocioException(MSG_CPF_DA_PESSOA_INFORMADA_JA_EXISTE);
+        }
+    }
+
+    private void atribuindoDadosDaPessoaAlteradaAhPessoaConsultada(Pessoa pessoaAlterada, Pessoa pessoaConsultada) {
+        pessoaConsultada.nome(pessoaAlterada.getNome())
+                .email(pessoaAlterada.getEmail())
+                .sexo(pessoaAlterada.getSexo())
+                .dataNascimeto(pessoaAlterada.getDataNascimento())
+                .nacionalidade(pessoaAlterada.getNacionalidade())
+                .naturalidade(pessoaAlterada.getNaturalidade());
     }
 }
