@@ -4,6 +4,7 @@ public interface Constantes {
 
     String API_PESSOA = "api/pessoa";
     String SOURCE = "source";
+    String URL_API_HTTPS_GITHUB_COM_BETOBRITO_PESSOA_API = "https://github.com/betobrito/pessoa-api";
 
     interface Mensagens{
         String MSG_DOCUMENTO_INFORMADO_EH_INVALIDO = "Documento informado é inválido.";

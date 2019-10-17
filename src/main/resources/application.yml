@@ -1,0 +1,33 @@
+
+eureka:
+  instance:
+    prefer-ip-address: true
+    appname: pessoa-api
+    statusPageUrlPath: ${server.servletPath}/info
+    healthCheckUrlPath: ${server.servletPath}/health
+  client:
+    service-url:
+      defaultZone: http://admin:admin@localhost:8761/eureka/
+    fetch-registry: true
+    register-with-eureka: true
+
+spring:
+  application:
+    name: pessoa-api
+
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/pessoa
+    username: pessoa
+    password:
+
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQL95Dialect
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        temp:
+          use_jdbc_metadata_defaults: false
+server:
+  port: 8080
