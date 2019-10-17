@@ -25,7 +25,9 @@ public class ExceptionControllerAdvice {
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler({NotFoundException.class})
-    public void handleNotFound() {}
+    public ErroDTO handleNotFound(NotFoundException e) {
+        return new ErroDTO(e.getClass().getSimpleName(), e.getMessage());
+    }
 
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler({NegocioException.class})
