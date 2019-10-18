@@ -220,6 +220,7 @@ public class PessoaResourceTest {
     private void limparObjetosPessoaMantendoEmailValidoIhDataValida() {
         this.pessoa = new Pessoa();
         this.pessoa.setEmail(Email.of(EMAIL_VALIDO));
+        this.pessoa.setCpf(Documento.of(CPF_13785310005_INVALIDO));
         this.pessoa.setDataNascimento(DataNascimento.of(Calendar.getInstance().getTime()));
         this.pessoaDTO = new PessoaDTO(pessoa);
     }

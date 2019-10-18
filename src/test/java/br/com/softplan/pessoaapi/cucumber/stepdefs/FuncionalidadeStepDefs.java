@@ -2,7 +2,6 @@ package br.com.softplan.pessoaapi.cucumber.stepdefs;
 
 import br.com.softplan.pessoaapi.domain.dto.ErroDTO;
 import br.com.softplan.pessoaapi.domain.dto.PessoaDTO;
-import br.com.softplan.pessoaapi.util.Constantes;
 import br.com.softplan.pessoaapi.util.JsonConverter;
 import cucumber.api.java.Before;
 import io.cucumber.java.pt.Dado;

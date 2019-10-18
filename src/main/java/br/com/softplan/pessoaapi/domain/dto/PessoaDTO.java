@@ -65,6 +65,41 @@ public class PessoaDTO {
         return cpf;
     }
 
+    public PessoaDTO nome(String nome){
+        this.nome = nome;
+        return this;
+    }
+
+    public PessoaDTO sexo(String sexo){
+        this.sexo = sexo;
+        return this;
+    }
+
+    public PessoaDTO email(String email){
+        this.email = email;
+        return this;
+    }
+
+    public PessoaDTO naturalidade(String naturalidade){
+        this.naturalidade = naturalidade;
+        return this;
+    }
+
+    public PessoaDTO nacionalidade(String nacionalidade){
+        this.nacionalidade = nacionalidade;
+        return this;
+    }
+
+    public PessoaDTO dataNascimeto(Date dataNascimento){
+        this.dataNascimento = dataNascimento;
+        return this;
+    }
+
+    public PessoaDTO cpf(String documento){
+        this.cpf = documento;
+        return this;
+    }
+
     public Pessoa transformToEntity(){
         return new Pessoa(this.nome, this.sexo, this.email, this.dataNascimento, this.naturalidade, this.nacionalidade, this.cpf);
     }
